@@ -1,0 +1,147 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+  }
+  
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  header .logo img {
+    width: 100px;
+  }
+  
+  header nav ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  header nav ul li {
+    margin: 0 15px;
+  }
+  
+  header nav ul li a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  header .user-settings img {
+    width: 50px;
+  }
+  
+  /* Hero Section */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 40px;
+    align-items: center;
+    background-color: #fff;
+  }
+  
+  .hero .text-content {
+    grid-column: 1 / 2;
+  }
+  
+  .hero .text-content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .hero .text-content .icons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .hero .cash-icon {
+    width: 100px;
+  }
+  
+  .hero .crypto-icon {
+    width: 50px;
+
+  }
+  
+  .hero .image-section {
+    grid-column: 2 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hero .image-section img {
+    width: 300px;
+    border-radius: 8px;
+  }
+  
+  .hero .subscription-options {
+    grid-column: 3 / 4;
+    background-color: rgb(21, 119, 21); /* Green background */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+  }
+  
+  .hero .subscription-options h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+  }
+  
+  .hero .subscription-options ul {
+    list-style: none;
+  }
+  
+  .hero .subscription-options ul li {
+    margin-bottom: 10px;
+  }
+  
+  .hero .subscription-options ul li ul {
+    margin-left: 15px;
+    font-size: 14px;
+  }
+  
+  .hero .subscription-options p {
+    margin-top: 15px;
+    font-size: 16px;
+    color: white;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    margin-top: 20px;
+  }
+  
+  footer p {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  .center-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    height: 100px;          /* Set height for the container */
+  }
+  
+  .crypto-icon {
+    width: 50px; /* Adjust the size as needed */
+  }
+  
