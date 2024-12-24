@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget App</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="SOUL Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="debt.html">Debt</a></li>
+        <li><a href="budget.html">Budget</a></li>
+        <li><a href="learn.html">Learn</a></li>
+      </ul>
+    </nav>
+    <div class="user-settings">
+      <img src="assets/images/group.png" alt="User Icon">
+      <img src="assets/images/gear.png" alt="user-settings">
+    </div>
+  </header>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+
+    form {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    #loanDetails {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e9ecef;
+      border-radius: 5px;
+    }
+
+    canvas {
+      display: block;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Loan Calculator</h1>
+  <form id="loanCalculatorForm">
+    <label for="loanBalance">Loan Balance ($):</label>
+    <input type="number" id="loanBalance" name="loanBalance" placeholder="Enter loan amount">
+
+    <label for="interestRate">Interest Rate (%):</label>
+    <input type="number" id="interestRate" name="interestRate" placeholder="Enter interest rate (e.g., 5)">
+
+    <label for="repaymentTerm">Repayment Term (Years):</label>
+    <input type="number" id="repaymentTerm" name="repaymentTerm" placeholder="Enter repayment term in years">
+
+    <label for="monthlyIncome">Monthly Income ($):</label>
+    <input type="number" id="monthlyIncome" name="monthlyIncome" placeholder="Enter monthly income">
+
+    <label for="monthlyExpenses">Monthly Expenses ($):</label>
+    <input type="number" id="monthlyExpenses" name="monthlyExpenses" placeholder="Enter total monthly expenses">
+
+    <button type="button" onclick="calculateLoanDetails()">Calculate</button>
+
+    <button onclick="clearUserPreferences()">Clear Data</button>
+
+  </form>
+
+  <div id="loanDetails">
+    <!-- Loan details will be displayed here -->
+  </div>
+
+  <canvas id="loanChart"></canvas>
+
+  <button id="exportBtn" style="display: none;" onclick="exportToCSV()">Export to CSV</button>
+
+  <script>
+    function calculateLoanDetails() {
+      // Get input values
+      const loanBalance = parseFloat(document.getElementById("loanBalance").value) || 0;
+      const interestRate = parseFloat(document.getElementById("interestRate").value) || 0;
+      const repaymentTerm = parseFloat(document.getElementById("repaymentTerm").value) || 0;
+      const monthlyIncome = parseFloat(document.getElementById("monthlyIncome").value) || 0;
+      const monthlyExpenses = parseFloat(document.getElementById("monthlyExpenses").value) || 0;
+
+      // Validate inputs
+      if (loanBalance <= 0 || repaymentTerm <= 0 || monthlyIncome <= 0) {
+        document.getElementById("loanDetails").innerHTML = `
+          <p style="color: red;">Please provide valid inputs for Loan Balance, Repayment Term, and Monthly Income.</p>
+        `;
+        return;
+      }
+
+      // Calculate monthly interest rate
+      const monthlyInterestRate = (interestRate / 100) / 12;
+
+      // Calculate monthly payment using loan amortization formula
+      const numberOfMonths = repaymentTerm * 12;
+      const monthlyPayment = monthlyInterestRate > 0
+        ? (loanBalance * monthlyInterestRate) /
+          (1 - Math.pow(1 + monthlyInterestRate, -numberOfMonths))
+        : loanBalance / numberOfMonths;
+
+      // Calculate total interest and total payments
+      const totalPaid = monthlyPayment * numberOfMonths;
+      const totalInterest = totalPaid - loanBalance;
+
+      // Calculate leftover buffer
+      const leftoverBuffer = monthlyIncome - (monthlyExpenses + monthlyPayment);
+
+      // Display loan details
+      document.getElementById("loanDetails").innerHTML = `
+        <h3>Loan Details</h3>
+        <p>Monthly Payment: <strong>$${monthlyPayment.toFixed(2)}</strong></p>
+        <p>Total Paid Over ${repaymentTerm} Years: <strong>$${totalPaid.toFixed(2)}</strong></p>
+        <p>Total Interest Paid: <strong>$${totalInterest.toFixed(2)}</strong></p>
+        <p>Leftover Buffer After Loan Payment: <strong>$${leftoverBuffer.toFixed(2)}</strong></p>
+      `;
+
+      // Show the export button
+      document.getElementById("exportBtn").style.display = "block";
+      
+
+      // Display the chart
+      displayChart(loanBalance, totalInterest);
+    }
+
+    function exportToCSV() {
+      const loanBalance = parseFloat(document.getElementById("loanBalance").value) || 0;
+      const interestRate = parseFloat(document.getElementById("interestRate").value) || 0;
+      const repaymentTerm = parseFloat(document.getElementById("repaymentTerm").value) || 0;
+
+      const csvContent = `data:text/csv;charset=utf-8,Category,Amount\n
+Loan Balance,$${loanBalance.toFixed(2)}\n
+Interest Rate,${interestRate}%\n
+Repayment Term,${repaymentTerm} years\n`;
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "loan_details.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function displayChart(loanBalance, totalInterest) {
+      const ctx = document.getElementById('loanChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Principal', 'Interest'],
+          datasets: [{
+            data: [loanBalance, totalInterest],
+            backgroundColor: ['#4caf50', '#ff9800'],
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+          },
+        },
+      });
+    }
+  </script>
+</body>
+</html>
