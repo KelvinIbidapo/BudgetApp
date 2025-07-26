@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Tracker</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="Budget App - Manage your finances, track expenses, and achieve your financial goals effortlessly.">
+<meta name="keywords" content="budget, finance, expenses, financial literacy, debt, investing">
+<meta name="author" content="Soulful Academics">
+<meta property="og:title" content="Budget App">
+<meta property="og:description" content="Manage your finances with ease.">
+<meta property="og:image" content="assets/images/logo.png">
+<meta property="og:url" content="https://soulfulacademics.com">
+<meta name="twitter:card" content="summary_large_image">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Budget App</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LMB25CK2DZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LMB25CK2DZ');
+</script>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="SOUL Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="debt.html">Debt</a></li>
+        <li><a href="budget.html">Budget</a></li>
+        <li><a href="learn.html">Learn</a></li>
+        <li><a href="merch.html">Merch</a></li>
+        <li><a href="stocktracker.html" class="active">Stock Tracker</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Stock Calculator</h2>
+    <form>
+      <label>Purchase Price: <input type="number" id="purchase-price" required></label>
+      <label>Current Price: <input type="number" id="current-price" required></label>
+      <label>Shares Owned: <input type="number" id="shares-owned" required></label>
+      <label>Initial Investment: <input type="number" id="initial-investment" required></label>
+      <label>Annual Rate (%): <input type="number" id="annual-rate" required></label>
+      <label>Years: <input type="number" id="years" required></label>
+      <button type="button" onclick="calculateResults()">Calculate</button>
+    </form>
+
+    <div id="results"></div>
+    <canvas id="investmentChart"></canvas>
+  </main>
+
+  <script>
+    let investmentChartInstance; // Chart instance to avoid duplicates
+
+    function calculateResults() {
+      // Input values
+      const purchasePrice = parseFloat(document.getElementById("purchase-price").value) || 0;
+      const currentPrice = parseFloat(document.getElementById("current-price").value) || 0;
+      const sharesOwned = parseInt(document.getElementById("shares-owned").value, 10) || 0;
+      const initialInvestment = parseFloat(document.getElementById("initial-investment").value) || 0;
+      const annualRate = parseFloat(document.getElementById("annual-rate").value) / 100 || 0;
+      const years = parseInt(document.getElementById("years").value, 10) || 0;
+
+      // Calculations
+      const profit = (currentPrice - purchasePrice) * sharesOwned;
+      const compoundInterest = initialInvestment * Math.pow((1 + annualRate), years);
+
+      // Display results
+      const results = `
+        <p><strong>Profit from Stock:</strong> $${profit.toFixed(2)}</p>
+        <p><strong>Compound Interest (Future Value):</strong> $${compoundInterest.toFixed(2)}</p>
+      `;
+      document.getElementById("results").innerHTML = results;
+
+      // Destroy the previous chart instance if it exists
+      if (investmentChartInstance) {
+        investmentChartInstance.destroy();
+      }
+
+      // Create the chart
+      const ctx = document.getElementById("investmentChart").getContext("2d");
+      investmentChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: years }, (_, i) => i + 1),
+          datasets: [{
+            label: 'Compound Growth',
+            data: Array.from({ length: years }, (_, i) => initialInvestment * Math.pow((1 + annualRate), i + 1)),
+            borderColor: 'rgba(40, 167, 69, 1)',
+            backgroundColor: 'rgba(40, 167, 69, 0.2)',
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: { title: { display: true, text: 'Years' } },
+            y: { title: { display: true, text: 'Value ($)' } }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
