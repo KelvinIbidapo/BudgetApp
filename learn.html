@@ -3,17 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learn - Budget App</title>
+  <title>Budget App</title>
   <link rel="stylesheet" href="styles/main.css">
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="Soulful Academics - Manage your finances, track expenses, and achieve your financial goals effortlessly.">
+<meta name="keywords" content="budget, finance, expenses, financial literacy, debt, investing">
+<meta name="author" content="Soulful Academics ">
+<meta property="og:title" content="Soulful Academics ">
+<meta property="og:description" content="Manage your finances with ease.">
+<meta property="og:image" content="assets/images/logo.png">
+<meta property="og:url" content="https://soulfulacademics.com">
+<meta name="twitter:card" content="summary_large_image">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Budget App</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LMB25CK2DZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LMB25CK2DZ');
+</script>
 </head>
 <body>
   <header>
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="SOUL Logo">
+    </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
+        <li><a href="debt.html">Debt</a></li>
         <li><a href="budget.html">Budget</a></li>
-        <li><a href="debt.html">Loan Calculator</a></li>
-        <li><a href="learn.html" class="active">Learn</a></li>
+        <li><a href="learn.html"class="active">Learn</a></li>
+        <li><a href="merch.html">Merch</a></li>
+        <li><a href="stocktracker.html">Stock Tracker</a></li>
       </ul>
     </nav>
   </header>
@@ -42,14 +72,26 @@
           </div>
           
           <div class="resource">
-            <h2>Investing 101</h2>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/0Te5AzV3iEk" 
+            <h2>Free Investing Course</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/fCTo4yULZlc" 
               title="Investing 101" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
               allowfullscreen></iframe>
             <p>Discover the basics of investing and how to grow your wealth over time.</p>
           </div>
           
     </section>
+
+    <section id="ebook-download">
+      <h2>Free eBook Download</h2>
+      <p>
+        Download <strong>"You're Already Rich"</strong> to unlock the wealth within yourself. A practical guide to financial literacy and abundance!
+      </p>
+      <a href="assets/youre-already-rich-STANDARD.pdf" download class="download-button">
+        <img src="assets/images/download-solid.svg" alt="Download Icon" style="width: 20px; height: 20px; vertical-align: middle;"> Download Now
+      </a>
+      
+    </section>
+    
   </main>
 
   <footer>
